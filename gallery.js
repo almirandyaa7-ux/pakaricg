@@ -1,6 +1,6 @@
 
 
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxyDQtMwn1QeJlYK0p5N-EfX76vyVkvsx5nGjNT9er1KEki9kGSZXEjkrEXe-47jfI6HA/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz_9ElVLqdMTQhnZoK7jdOk3kqyUYgRWJ7ghhevJx_uqEVIvKwqCOAOhX0mTh1a-gYn/exec";
 
 document.addEventListener('DOMContentLoaded', loadGallery);
 
@@ -14,40 +14,47 @@ async function loadGallery() {
         
         container.innerHTML = ""; 
 
-        data.forEach((item, index) => {
-            // Ekstrak ID Gambar
-            const fileId = item.driveUrl.split('id=')[1] || item.driveUrl.split('/d/')[1].split('/')[0];
-            const directImg = `https://lh3.googleusercontent.com/u/0/d/${fileId}`;
+        // AMBIL DARI LACI "all"
+        const listKarya = data.all; 
 
-            const card = `
-                <div class="art-card">
-                    <div class="card-img-container">
-                        <img src="${directImg}" alt="${item.judul}" class="cover-img">
-                    </div>
-                    <div class="card-content">
-                        <h3 class="art-title-bold">${item.judul}</h3>
-                        <p class="art-info-sub">Oleh ${item.nama}</p>
-                        <p class="art-info-sub">Kelas ${item.kelas}</p>
-                        
-                        <div class="card-action">
-                            <button id="btn-karya-${index}" class="btn-like" onclick="handleLike(${item.rowId}, 'karya-${index}')">
-                                <i class="${localStorage.getItem('liked_row_' + item.rowId) ? 'fa-solid' : 'fa-regular'} fa-heart" 
-                                   style="${localStorage.getItem('liked_row_' + item.rowId) ? 'color:#ff4757' : ''}"></i> 
-                                <span id="count-karya-${index}">${item.likes}</span>
-                            </button>
-                            <button class="btn-lihat" onclick="openLightbox('${directImg}')">Lihat Full</button>
+        if (listKarya && listKarya.length > 0) {
+            listKarya.forEach((item, index) => {
+                // Ekstrak ID Gambar dari URL Drive
+                const fileId = item.driveUrl.split('id=')[1] || item.driveUrl.split('/d/')[1].split('/')[0];
+                // Menggunakan thumbnail resolusi tinggi agar lebih enteng & muncul
+                const directImg = `https://lh3.googleusercontent.com/u/0/d/${fileId}=w1000`;
+
+                const card = `
+                    <div class="art-card">
+                        <div class="card-img-container">
+                            <img src="${directImg}" alt="${item.judul}" class="cover-img" onerror="this.src='https://via.placeholder.com/300x400?text=Gambar+Privat'">
+                        </div>
+                        <div class="card-content">
+                            <h3 class="art-title-bold">${item.judul}</h3>
+                            <p class="art-info-sub">Oleh ${item.nama}</p>
+                            <p class="art-info-sub">Kelas ${item.kelas}</p>
+                            
+                            <div class="card-action">
+                                <button id="btn-karya-${index}" class="btn-like" onclick="handleLike(${item.rowId}, 'karya-${index}')">
+                                    <i class="${localStorage.getItem('liked_row_' + item.rowId) ? 'fa-solid' : 'fa-regular'} fa-heart" 
+                                       style="${localStorage.getItem('liked_row_' + item.rowId) ? 'color:#ff4757' : ''}"></i> 
+                                    <span id="count-karya-${index}">${item.likes}</span>
+                                </button>
+                                <button class="btn-lihat" onclick="openLightbox('${directImg}')">Lihat Full</button>
+                            </div>
                         </div>
                     </div>
-                </div>
-            `;
-            container.innerHTML += card;
-        });
+                `;
+                container.innerHTML += card;
+            });
+        } else {
+            container.innerHTML = "<p style='grid-column:1/-1; text-align:center;'>Belum ada karya untuk ditampilkan.</p>";
+        }
     } catch (err) {
-        container.innerHTML = "<p style='grid-column:1/-1; text-align:center; color:red;'>Gagal terhubung. Pastikan Deployment Apps Script sudah 'Anyone'.</p>";
+        console.error("Gallery Error:", err);
+        container.innerHTML = "<p style='grid-column:1/-1; text-align:center; color:red;'>Gagal memuat gallery. Cek koneksi atau URL Script.</p>";
     }
 }
-
-// Fungsi handleLike dan Lightbox tetap sama seperti sebelumnya...
 
 // 2. Fungsi Like Permanen ke Database
 async function handleLike(rowId, elementId) {
@@ -163,5 +170,23 @@ const navLinks = document.querySelectorAll('.dropdown-menu a');
 navLinks.forEach(link => {
     if (link.getAttribute('href') === currentPath) {
         link.classList.add('active');
+    }
+});
+
+// Jalankan ini setiap halaman Gallery dibuka
+window.addEventListener('DOMContentLoaded', () => {
+    // 1. Cek apakah ada parameter 'search' di URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const searchQuery = urlParams.get('search');
+
+    if (searchQuery) {
+        // 2. Tunggu sebentar sampai data gallery selesai dimuat
+        setTimeout(() => {
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) {
+                searchInput.value = searchQuery; // Masukkan judul ke kotak search
+                searchArt(); // Jalankan fungsi cari otomatis
+            }
+        }, 1500); // Delay 1.5 detik biar data database muncul dulu
     }
 });

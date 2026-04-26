@@ -30,7 +30,7 @@
       .header-left { display: flex; align-items: center; gap: 20px; } 
       .logo {
         width: 120px; /* Wajib diisi */
-        height: 40px; /* Wajib diisi */
+        height: 72px; /* Wajib diisi */
         background-image: url('tes/logoic1.png');
         background-size: contain; /* Biar gambar masuk semua ke kotak */
         background-repeat: no-repeat;
@@ -122,14 +122,14 @@
         width: 100%; 
         background: #ccc; 
         border-radius: 8px; 
-        background-image: url('tes/download.webp');
+        background-image: url('tes/image-2.webp');
         }
       .img-place-2 { 
         height: 240px; 
         width: 100%; 
         background: #aaa; 
         border-radius: 8px; 
-        background-image: url('tes/download.webp');
+        background-image: url('tes/image-3.jpg');
     }
 
       /* Paint Bucket (Foreground Image) */
@@ -368,4 +368,89 @@
     border-top: 1px solid #eee;
     padding-top: 20px;
     width: 100%;
+}
+
+/* Container Utama */
+/* Container Utama Rank */
+#weekly-container {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 20px !important; /* Jarak antar kartu lebih lega */
+    width: 100% !important;
+    min-height: 400px !important; /* INI biar containernya panjang ke bawah */
+    padding: 20px 0 !important;
+}
+
+/* Biar kartu-kartunya punya napas */
+.karya-card {
+    display: flex !important;
+    justify-content: space-between !important; /* Memisahkan info (kiri) & badge (kanan) */
+    align-items: center !important;
+    padding: 20px 40px !important; /* Angka 40px ini yang bikin jarak dari ujung kiri-kanan */
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 15px;
+    margin-bottom: 15px;
+    width: 100%;
+    box-sizing: border-box; /* SANGAT PENTING: Supaya padding tidak merusak lebar */
+}
+
+.karya-badge {
+    display: flex;
+    align-items: center;
+    gap: 25px; /* Jarak antara teks kelas dan tombol */
+    margin-right: 10px; /* Tambahan jarak ekstra jika masih kurang */
+}
+
+.karya-card:hover {
+    transform: translateY(-5px); /* Efek melayang pas di-hover */
+    background: rgba(255, 255, 255, 0.12) !important;
+}
+
+/* Membagi info (kiri) dan badge (kanan) */
+.karya-content {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    width: 100% !important;
+}
+
+/* Judul Bold & Nama Samar */
+.karya-judul {
+    font-weight: bold !important;
+    font-size: 1.1rem !important;
+    padding-left: 0px;
+    color: white !important;
+    margin: 0 !important;
+}
+
+.karya-nama {
+    font-size: 0.85rem !important;
+    padding-left: 20px;
+    color: rgba(255, 255, 255, 0.5) !important; /* Samar */
+    margin-top: 5px !important;
+}
+
+/* Sembunyikan link drive mentah agar tidak merusak layout */
+.karya-info a {
+    display: none; 
+}
+
+/* Gaya Tombol Lihat Karya */
+.btn-lihat {
+    background: white !important;
+    color: black !important;
+    padding: 15px 15px !important;
+    border-radius: 20px !important;
+    text-decoration: none !important;
+    font-weight: bold !important;
+    font-size: 0.8rem !important;
+}
+
+.empty-msg {
+    text-align: center;
+    color: rgba(255, 255, 255, 0.4);
+    font-style: italic;
+    padding: 20px 20px;
+    border: 1px dashed rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
 }

@@ -32,7 +32,7 @@ body {
 .header-left { display: flex; align-items: center; gap: 20px; }
  .logo {
         width: 120px; /* Wajib diisi */
-        height: 40px; /* Wajib diisi */
+        height: 72px; /* Wajib diisi */
         background-image: url('tes/logoic1.png');
         background-size: contain; /* Biar gambar masuk semua ke kotak */
         background-repeat: no-repeat;
@@ -66,7 +66,7 @@ body, html {
     height: 100vh; /* Memenuhi tinggi layar monitor */
     
     /* GANTI INI DENGAN URL FOTO GEDUNG MAN ICG KAMU */
-    background-image: url('tes/download.webp'); 
+    background-image: url('tes/image-3.jpg'); 
     
     background-size: cover;
     background-position: center;

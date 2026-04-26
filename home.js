@@ -1,4 +1,4 @@
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyU4rwTZ6PVTbnLmHEf55xi_9NfjLHUpdi5Nla1V8lsvwySCcHA-psZagY7XkU3oXn7zw/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz_9ElVLqdMTQhnZoK7jdOk3kqyUYgRWJ7ghhevJx_uqEVIvKwqCOAOhX0mTh1a-gYn/exec";
 
 // 1. Fungsi Search Bar di Home
 function searchArt() {
@@ -29,56 +29,46 @@ function showHomeNotification(text) {
 }
 
 async function loadTopKarya() {
-    // Cari containernya dulu
-    const weeklyCont = document.getElementById('weekly-container');
-    const monthlyCont = document.getElementById('monthly-container');
-
-    if (weeklyCont) weeklyCont.innerHTML = "<p>Loading rank...</p>";
-
+    const container = document.getElementById('weekly-container');
     try {
         const response = await fetch(SCRIPT_URL);
         const data = await response.json();
+        
+        // AMBIL DARI WEEKLY, lalu potong jadi 3 untuk jaga-jaga
+        const top3 = data.weekly.slice(0, 3); 
 
-        // Panggil fungsi gambar untuk masing-masing section
-        if (weeklyCont) renderTopArts(data.weekly, 'weekly-container');
-        if (monthlyCont) renderTopArts(data.monthly, 'monthly-container');
+        container.innerHTML = ""; 
+        renderTopArts(top3, 'weekly-container');
         
     } catch (err) {
-        console.error("Error database:", err);
-        if (weeklyCont) weeklyCont.innerHTML = "<p>Gagal memuat data.</p>";
+        console.error(err);
     }
 }
-
-function renderTopArts(items, containerId) {
+function renderTopArts(data, containerId) {
     const container = document.getElementById(containerId);
     if (!container) return;
-    
-    container.innerHTML = ""; 
+    container.innerHTML = ''; 
 
-    if (!items || items.length === 0) {
-        container.innerHTML = "<p style='color:gray;'>Belum ada karya untuk periode ini.</p>";
-        return;
-    }
+    data.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'karya-card';
 
-    items.forEach(item => {
-        // Kita gunakan struktur yang sama persis dengan desainmu
-        const rowHTML = `
-            <div class="top-item-row">
-                <div class="item-left">
-                    <h3 class="item-title">${item.judul}</h3>
-                    <p class="item-author">Oleh ${item.nama}</p>
-                </div>
-                <div class="item-divider"></div>
-                <div class="item-right">
-                    <span class="item-class">${item.kelas}</span>
-                    <a href="gallery.html?highlight=${item.rowId}" class="btn-lihat-karya">Lihat Karya</a>
-                </div>
-            </div>
-        `;
-        container.innerHTML += rowHTML;
+        // Di dalam renderTopArts (home.js)
+        card.innerHTML = `
+    <div class="karya-content">
+        <div class="karya-info">
+            <h3 class="karya-judul">${item.judul}</h3>
+            <p class="art-info-sub">Oleh ${item.nama}</p>
+        </div>
+        <div class="karya-badge">
+            <span class="kelas-text">${item.kelas}</span>
+            <a href="gallery.html?search=${encodeURIComponent(item.judul)}" class="btn-lihat">Lihat Karya</a>
+        </div>
+    </div>
+`;
+        container.appendChild(card);
     });
 }
-
 document.addEventListener('DOMContentLoaded', loadTopKarya);
 
 // Tambahkan ini di baris paling bawah file JS kamu
