@@ -1,0 +1,284 @@
+/* RESET & VARIABLES */
+* { box-sizing: border-box; }
+:root {
+    --pakar-dark: #121E2A;
+    --pakar-blue: #0E49A1;
+    --card-bg: #1A2634;
+    --text-muted: #D1D5DB;
+}
+
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background-color: var(--pakar-dark);
+    color: white;
+    overflow-x: hidden;
+}
+
+/* NAVBAR (SAMA PERSIS DENGAN HOME) */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    padding: 10px 40px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    height: 60px; /* Samakan tinggi dengan navbar home kamu */
+}
+
+.header-left { display: flex; align-items: center; gap: 20px; }
+ .logo {
+        width: 120px; /* Wajib diisi */
+        height: 40px; /* Wajib diisi */
+        background-image: url('tes/logoic1.png');
+        background-size: contain; /* Biar gambar masuk semua ke kotak */
+        background-repeat: no-repeat;
+        background-position: left center;
+        display: block;
+        text-indent: -9999px;
+ }
+.nav-link { color: #666; text-decoration: none; font-size: 14px; font-weight: 500; }
+.nav-link.active { color: black; font-weight: 700; }
+
+.header-right { display: flex; align-items: center; gap: 20px; }
+.search-bar { background: #F3F4F6; border: none; padding: 8px 12px; border-radius: 6px; font-size: 14px; width: 200px; }
+.icon { color: #666; font-size: 18px; cursor: pointer; }
+
+
+/* Pastikan ini ada agar foto fixed/parallax */
+/* RESET DASAR (Supaya nempel ke pinggir monitor) */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background-color: #121E2A; /* Warna dasar web kamu */
+}
+
+/* LAPISAN 1: BACKGROUND GEDUNG (BASE) */
+.parallax-bg-base {
+    position: fixed; /* Menempel di layar, tidak ikut scroll */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh; /* Memenuhi tinggi layar monitor */
+    
+    /* GANTI INI DENGAN URL FOTO GEDUNG MAN ICG KAMU */
+    background-image: url('tes/download.webp'); 
+    
+    background-size: cover;
+    background-position: center;
+    z-index: 1; /* Lapisan paling bawah */
+    filter: brightness(0.7); /* Kasih filter gelap dikit biar teks terbaca */
+}
+
+/* LAPISAN 2: JUDUL TRANSPARAN (MENIMPA BASE) */
+.parallax-title-layer {
+    position: relative;
+    width: 100%;
+    height: 100vh; /* Judul berada di tengah layar monitor */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2; /* Di atas background gedung */
+    pointer-events: none; /* Supaya judul tidak bisa di-klik/blok */
+}
+
+.transparent-title {
+    font-size: 6rem; /* Ukuran besar banget biar estetik */
+    font-weight: 900;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.1); /* SANGAT TRANSPARAN */
+    
+    /* Efek teks bolong (opsional, keren kalau backgroundnya ramai) */
+    -webkit-text-stroke: 2px rgba(255, 255, 255, 0.5); 
+    color: transparent; 
+    
+    letter-spacing: 15px;
+    text-align: center;
+}
+
+
+/* LAPISAN 3: KONTEN UTAMA (MENUTUPI SEMUANYA SAAT SCROLL) */
+.main-content-layer {
+    position: relative;
+    width: 100%;
+    z-index: 3; /* Lapisan paling atas */
+    background-color: #121E2A; /* Beri warna solid agar menutup gedung */
+    
+    /* Beri margin top 100vh agar user harus scroll dulu baru ketemu konten */
+    margin-top: 100vh; 
+    
+    /* Padding untuk konten gallery kamu */
+    padding: 80px 10%; 
+    box-shadow: 0 -10px 30px rgba(0,0,0,0.5); /* Efek bayangan saat menimpa judul */
+}
+
+/* DESCRIPTION */
+.description-section { padding: 60px 40px; line-height: 1.8; color: var(--text-muted); }
+
+/* BLUE GRID CONTAINER */
+.blue-grid-container {
+    background-color: var(--pakar-blue);
+    padding: 60px 40px;
+}
+/* Ini adalah pembungkus semua kartu */
+.art-grid {
+    display: grid;
+    /* Membuat kolom otomatis: minimal 300px, maksimal sisa ruang */
+    /* Ini akan otomatis jadi 3-4 kolom di laptop dan 1 kolom di HP */
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
+    gap: 25px; /* Jarak antar kotak */
+    padding: 30px;
+    width: 100%;
+    max-width: 1200px; /* Agar tidak terlalu lebar di layar monitor besar */
+    margin: 0 auto;    /* Agar grid berada di tengah layar */
+
+
+/* Pastikan konten kartu pakai Flexbox vertikal */
+.card-content {
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    background: #1a2a3a; /* Warna background kartu */
+}
+
+/* Judul & Info (Nama/Kelas) */
+.art-title-bold {
+    font-weight: 1000;
+    margin-bottom: 5px;
+}
+
+.art-info-sub {
+    opacity: 0.6;
+    margin: 0;
+}
+
+/* Container Tombol di bagian paling bawah kartu */
+.card-action {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px; /* Memberi jarak dari teks ke tombol */
+    border-top: 1px solid rgba(255,255,255,0.1); /* Garis tipis pemisah */
+    padding-top: 10px;
+}
+
+/* Atur tombol like agar rapi */
+.btn-like {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 1rem;
+}
+
+/* Gambar Cover (Tidak Full/Crop) */
+.card-img-container {
+    width: 100%;
+    height: 200px; /* Tinggi cover */
+    overflow: hidden;
+}
+
+.cover-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ini yang bikin efek crop/cover */
+}
+
+/* Button Container */
+.card-action {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+}
+.art-author, .art-class { font-size: 14px; color: var(--text-muted); margin: 2px 0; }
+
+.btn-lihat {
+    width: 100%; background: white; border: none; padding: 12px;
+    border-radius: 6px; font-weight: bold; cursor: pointer; margin-top: 20px;
+}
+
+
+/* MODAL LIGHTBOX */
+.modal {
+    display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.9); z-index: 2000; justify-content: center; align-items: center;
+}
+#modal-img { max-width: 90%; max-height: 80%; border-radius: 5px; }
+
+}
+
+/* Keadaan awal (Sembunyi) */
+.bounce-target, .fade-target {
+    opacity: 0;
+    transition: all 0.5s ease;
+}
+
+/* Class yang akan ditempel via JS nanti */
+.animate-bounce {
+    animation: bounceInDown 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.animate-fade {
+    animation: fadeInUp 1s ease-out forwards;
+}
+
+/* Keyframes (Definisi gerakannya) */
+@keyframes bounceInDown {
+    0% { opacity: 0; transform: translateY(-100px); }
+    60% { opacity: 1; transform: translateY(20px); }
+    80% { transform: translateY(-10px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Container Overlay (Background Gelap) */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85); /* Gelap transparan */
+    display: none; /* Sembunyi dulu */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    cursor: pointer;
+}
+
+/* Gambar di dalam Modal */
+.modal-content {
+    max-width: 90%;
+    max-height: 85vh; /* Biar gak luber ke bawah */
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+    object-fit: contain; /* KUNCI: Biar gambar proporsional & utuh */
+}
+
+/* Tombol Tutup (X) */
+.modal-close {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    color: white;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.modal-close:hover {
+    color: #ff4d4d;
+}
