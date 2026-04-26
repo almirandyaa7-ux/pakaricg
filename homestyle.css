@@ -5,27 +5,47 @@
         --text-color-muted: #D1D5DB; /* Muted gray for body text on dark BG */
         --divider-color: rgba(255, 255, 255, 0.1); /* Subtle divider */
       }
+ 
+ @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap');
+
+
 
      body {
     margin: 0;
-    font-family: 'Inter', 'Roboto', sans-serif;
-    background-color: var(--pakar-dark); /* Menggunakan variabel asli kamu */
-    color: var(--text-color-light);
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
+    letter-spacing: -0.02em; /* Biar teksnya kelihatan lebih 'pro' */
+    background: radial-gradient(circle at top right, #1a1a2e, #16213e, #0f3460) !important;
+    background-attachment: fixed;
+    min-height: 100vh;
+    color: #ffffff;
 }
 
       
       /* == HEADER / NAVBAR == */
-      .header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        background-color: white;
-        padding: 10px 40px;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-        position: sticky;
-        top: 0;
-        z-index: 1000;
-      }
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    padding: 10px 40px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    height: 60px; /* Samakan tinggi dengan navbar home kamu */
+}
+
+.judul {
+    font-size: 60px;
+    padding-bottom: 0px;
+    align-items: center;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.pameran-body {
+        font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
 
       .header-left { display: flex; align-items: center; gap: 20px; } 
       .logo {
@@ -39,12 +59,13 @@
         text-indent: -9999px; /* Buang teks "LOGO" kalau masih ada di HTML */
 }
       
-      .nav-link { color: #666; text-decoration: none; font-size: 14px; font-weight: 500; }
-      .nav-link:hover { color: black; }
+    .nav-link { color: #666; text-decoration: none; font-size: 14px; font-weight: 500; }
+.nav-link.active { color: black; font-weight: 700; }
 
-      .header-right { display: flex; align-items: center; gap: 20px; }
-      .search-bar { background: #F3F4F6; border: none; padding: 8px 12px; border-radius: 6px; font-size: 14px; width: 200px; }
-      .icon { color: #666; font-size: 18px; cursor: pointer; }
+.header-right { display: flex; align-items: center; gap: 20px; }
+.search-bar { background: #F3F4F6; border: none; padding: 8px 12px; border-radius: 6px; font-size: 14px; width: 200px; }
+.icon { color: #666; font-size: 18px; cursor: pointer; }
+
 
       /* == COMMON DARK SECTION STYLING == */
   .dark-section {
@@ -77,8 +98,24 @@
 }
 
       .main-title { 
-        font-size: 36px; font-weight: 700; text-transform: uppercase; margin-bottom: 20px; color: var(--text-color-light); }
-      .sub-title { color: var(--text-color-muted); font-size: 16px; font-weight: 400; margin-top: -10px; margin-bottom: 30px; }
+        font-size: 36px;     
+        background: linear-gradient(-45deg, #0f172a, #1e293b, #334155, #1e1b4b);
+        background-size: 400% 400%;
+        animation: gradientBG 15s ease infinite; 
+        font-weight: 700; 
+        text-transform: uppercase; 
+        margin-bottom: 20px; 
+        color: var(--text-color-light); 
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    }
+      .sub-title { 
+        color: var(--text-color-muted); 
+        font-size: 16px; 
+        font-weight: 400; 
+        margin-top: -10px; 
+        margin-bottom: 30px;
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+     }
 
       /* == 1. PAMERAN KARYA (HERO) SECTION == */
       .pameran-wrapper {
@@ -92,9 +129,9 @@
       .pameran-body { color: var(--text-color-muted); line-height: 1.6; max-width: 450px; }
       
       .btn-jelajahi {
-        background: white; color: black; border: none; padding: 12px 28px;
-        border-radius: 20px; font-weight: 600; cursor: pointer;
-        width: fit-content; text-decoration: none; font-size: 15px;
+        background: white; color: black; border: none; padding: 10px 40px;
+        border-radius: 20px;  cursor: pointer; 
+        width: fit-content; text-decoration: none; font-size: 18px;
         /* Efek Hover (Saat kursor di atas tombol) */
 .btn-bounce {
     display: inline-block !important; /* Wajib ada biar bisa gerak */
@@ -375,36 +412,44 @@
 #weekly-container {
     display: flex !important;
     flex-direction: column !important;
-    gap: 20px !important; /* Jarak antar kartu lebih lega */
-    width: 100% !important;
-    min-height: 400px !important; /* INI biar containernya panjang ke bawah */
-    padding: 20px 0 !important;
+    gap: 20px !important;
+    width: 100% !important; /* Biar memenuhi layar */
+    max-width: 900px !important; /* Tapi jangan terlalu lebar juga */
+    margin: 40px auto !important; /* Tengahin */
+    padding: 20px !important;
+    box-sizing: border-box !important;
 }
-
-/* Biar kartu-kartunya punya napas */
 .karya-card {
     display: flex !important;
-    justify-content: space-between !important; /* Memisahkan info (kiri) & badge (kanan) */
+    justify-content: space-between !important;
     align-items: center !important;
-    padding: 20px 40px !important; /* Angka 40px ini yang bikin jarak dari ujung kiri-kanan */
-    background: rgba(255, 255, 255, 0.08);
-    border-radius: 15px;
-    margin-bottom: 15px;
-    width: 100%;
-    box-sizing: border-box; /* SANGAT PENTING: Supaya padding tidak merusak lebar */
+    width: 100% !important;
+    padding: 25px 40px !important;
+    background: rgba(255, 255, 255, 0.05) !important; /* Transparan */
+    backdrop-filter: blur(12px) !important; /* Efek Kaca */
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 20px !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2) !important;
+    transition: all 0.3s ease !important;
+    box-sizing: border-box !important;
+}
+
+.karya-card:hover {
+    transform: translateY(-5px) scale(1.01);
+    background: rgba(255, 255, 255, 0.1) !important;
+    border-color: rgba(255, 255, 255, 0.3) !important;
 }
 
 .karya-badge {
     display: flex;
     align-items: center;
     gap: 25px; /* Jarak antara teks kelas dan tombol */
-    margin-right: 10px; /* Tambahan jarak ekstra jika masih kurang */
+    margin: 20px 20px; /* Tambahan jarak ekstra jika masih kurang */
+    padding-left: 20px;
 }
 
-.karya-card:hover {
-    transform: translateY(-5px); /* Efek melayang pas di-hover */
-    background: rgba(255, 255, 255, 0.12) !important;
-}
+
 
 /* Membagi info (kiri) dan badge (kanan) */
 .karya-content {
@@ -412,12 +457,14 @@
     justify-content: space-between !important;
     align-items: center !important;
     width: 100% !important;
+    color: rgba(255, 255, 255, 0.5) !important; /* Samar */
+    ;
 }
 
 /* Judul Bold & Nama Samar */
 .karya-judul {
     font-weight: bold !important;
-    font-size: 1.1rem !important;
+    font-size: 1.2rem !important;
     padding-left: 0px;
     color: white !important;
     margin: 0 !important;
@@ -425,7 +472,7 @@
 
 .karya-nama {
     font-size: 0.85rem !important;
-    padding-left: 20px;
+    padding-left: 40px;
     color: rgba(255, 255, 255, 0.5) !important; /* Samar */
     margin-top: 5px !important;
 }
@@ -453,4 +500,19 @@
     padding: 20px 20px;
     border: 1px dashed rgba(255, 255, 255, 0.2);
     border-radius: 10px;
+}
+
+.karya-card, .art-card {
+    background: rgba(255, 255, 255, 0.03) !important; /* Transparan dikit banget */
+    backdrop-filter: blur(10px) !important; /* Efek blur kaca */
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37) !important;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+}
+
+.karya-card:hover {
+    background: rgba(255, 255, 255, 0.07) !important;
+    transform: translateY(-8px) scale(1.02); /* Efek melayang halus */
+    border-color: rgba(255, 255, 255, 0.2) !important;
 }

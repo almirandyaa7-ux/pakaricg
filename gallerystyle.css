@@ -7,12 +7,27 @@
     --text-muted: #D1D5DB;
 }
 
-body {
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap');
+
+
+
+     body {
     margin: 0;
-    font-family: 'Inter', sans-serif;
-    background-color: var(--pakar-dark);
-    color: white;
-    overflow-x: hidden;
+     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif !important;
+    letter-spacing: -0.02em; /* Biar teksnya kelihatan lebih 'pro' */
+    background: linear-gradient(-45deg, #0f172a, #1e293b, #334155, #1e1b4b);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    background-attachment: fixed;
+    min-height: 100vh;
+    color: #ffffff;
+    
+}
+
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 /* NAVBAR (SAMA PERSIS DENGAN HOME) */
@@ -26,7 +41,7 @@ body {
     position: sticky;
     top: 0;
     z-index: 1000;
-    height: 60px; /* Samakan tinggi dengan navbar home kamu */
+    height: 74px; /* Samakan tinggi dengan navbar home kamu */
 }
 
 .header-left { display: flex; align-items: center; gap: 20px; }
@@ -178,6 +193,16 @@ body, html {
     font-size: 1rem;
 }
 
+.btn-like i.fa-solid {
+    animation: heartBeat 0.3s ease-in-out;
+}
+
+@keyframes heartBeat {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.3); }
+    100% { transform: scale(1); }
+}
+
 /* Gambar Cover (Tidak Full/Crop) */
 .card-img-container {
     width: 100%;
@@ -229,6 +254,27 @@ body, html {
 .animate-fade {
     animation: fadeInUp 1s ease-out forwards;
 }
+
+/* Tambahkan ini di kartu galeri kamu */
+.art-card {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: slideUp 0.6s ease-out forwards;
+}
+
+@keyframes slideUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Membuat jeda waktu tiap kartu (stagger) */
+.art-card:nth-child(1) { animation-delay: 0.1s; }
+.art-card:nth-child(2) { animation-delay: 0.2s; }
+.art-card:nth-child(3) { animation-delay: 0.3s; }
+.art-card:nth-child(4) { animation-delay: 0.4s; }
+/* ...dan seterusnya */
 
 /* Keyframes (Definisi gerakannya) */
 @keyframes bounceInDown {
@@ -282,3 +328,24 @@ body, html {
 .modal-close:hover {
     color: #ff4d4d;
 }
+
+.art-card {
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+}
+
+.art-card:hover {
+    transform: translateY(-10px) scale(1.03) !important;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 
+                0 0 15px rgba(255, 255, 255, 0.1) !important;
+    border-color: rgba(255, 255, 255, 0.4) !important;
+}
+
+/* Efek Zoom pada gambar di dalam kartu */
+.art-card:hover .cover-img {
+    transform: scale(1.1);
+}
+
+.cover-img {
+    transition: transform 0.6s ease;
+}
+
