@@ -159,3 +159,114 @@
 .footer-links a:hover {
     text-decoration: underline;
 }
+
+/* --- ANIMASI (Tetap Pertahankan) --- */
+@keyframes bounceInDown {
+    0% { opacity: 0; transform: translateY(-100px); }
+    60% { opacity: 1; transform: translateY(20px); }
+    80% { transform: translateY(-10px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+.bounce-target { 
+    animation: bounceInDown 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; 
+}
+
+/* --- BASE STYLING --- */
+body {
+    margin: 0;
+    overflow-x: hidden; /* Mencegah geser kanan-kiri di HP */
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.about-hero {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: url('tes/download.webp') no-repeat center center/cover;
+}
+
+.about-hero::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 1;
+}
+
+.transparent-title {
+    font-size: clamp(2.5rem, 8vw, 5rem); /* Font mengecil otomatis di HP */
+    font-weight: 900;
+    -webkit-text-stroke: 1px white;
+    color: transparent;
+    text-align: center;
+}
+
+/* --- LAYOUT TIM (FLEXIBLE) --- */
+.team-layout {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.team-image-container {
+    flex: 1;
+    max-width: 450px;
+}
+
+.team-photo-bg img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 15px 15px 0px rgba(0,0,0,0.4);
+}
+
+.team-text-section {
+    flex: 1;
+    color: white;
+}
+
+/* --- RESPONSIVE MOBILE (KHUSUS HP) --- */
+@media screen and (max-width: 768px) {
+    .about-hero {
+        height: 80vh; /* Sedikit lebih pendek di HP agar user tahu ada konten di bawah */
+    }
+
+    .transparent-title {
+        -webkit-text-stroke: 0.5px white; /* Garis lebih tipis di layar kecil */
+    }
+
+    .team-layout {
+        flex-direction: column; /* Gambar di atas, Teks di bawah */
+        gap: 30px;
+        text-align: center; /* Teks jadi rata tengah di HP */
+    }
+
+    .team-image-container {
+        width: 85%; /* Gambar tidak memenuhi lebar layar agar shadow tetap kelihatan */
+        margin-bottom: 20px;
+    }
+
+    .team-photo-bg img {
+        box-shadow: 10px 10px 0px rgba(0,0,0,0.4); /* Shadow lebih kecil di HP */
+    }
+
+    .team-text-section h2 {
+        font-size: 2.2rem !important; /* Ukuran "THE TEAM" di HP */
+    }
+
+    .footer-container {
+        padding: 0 20px;
+    }
+
+    .back-home-btn {
+        width: 100%; /* Tombol melebar di HP agar mudah diklik jempol */
+        justify-content: center;
+    }
+}

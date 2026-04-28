@@ -1,518 +1,241 @@
- :root {
-        --pakar-dark: #121E2A; /* Dark blue/black background */
-        --pakar-blue: #0E49A1; /* Vivid blue for the submit section */
-        --text-color-light: #FFFFFF;
-        --text-color-muted: #D1D5DB; /* Muted gray for body text on dark BG */
-        --divider-color: rgba(255, 255, 255, 0.1); /* Subtle divider */
-      }
- 
- @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap');
-
-
-
-     body {
-    margin: 0;
-    font-family: 'Plus Jakarta Sans', sans-serif !important;
-    letter-spacing: -0.02em; /* Biar teksnya kelihatan lebih 'pro' */
-    background: radial-gradient(circle at top right, #1a1a2e, #16213e, #0f3460) !important;
-    background-attachment: fixed;
-    min-height: 100vh;
-    color: #ffffff;
+:root {
+    --pakar-dark: #121E2A;
+    --pakar-blue: #0E49A1;
+    --text-color-light: #FFFFFF;
+    --text-color-muted: #D1D5DB;
 }
 
-      
-      /* == HEADER / NAVBAR == */
-  .header {
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    background: #121E2A;
+    color: #ffffff;
+    overflow-x: hidden;
+}
+
+/* NAVBAR SAMA DENGAN GALLERY */
+.header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     background-color: white;
-    padding: 10px 40px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    padding: 0 40px;
     position: sticky;
     top: 0;
     z-index: 1000;
-    height: 60px; /* Samakan tinggi dengan navbar home kamu */
+    height: 70px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
-.judul {
-    font-size: 60px;
-    padding-bottom: 0px;
-    align-items: center;
-    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+.header-left { display: flex; align-items: center; gap: 15px; }
+.logo { width: 100px; height: 50px; background: url('tes/logoic1.png') no-repeat left center; background-size: contain; }
+.divider { color: #ccc; }
+
+.header-left {
+    display: flex !important;
+    align-items: center !important;
+    gap: 20px !important;
+    visibility: visible !important; /* Memastikan tidak tersembunyi */
 }
 
-.pameran-body {
-        font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+.nav-link {
+    color: #666 !important;
+    text-decoration: none !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    display: inline-block !important;
 }
 
-
-      .header-left { display: flex; align-items: center; gap: 20px; } 
-      .logo {
-        width: 120px; /* Wajib diisi */
-        height: 72px; /* Wajib diisi */
-        background-image: url('tes/logoic1.png');
-        background-size: contain; /* Biar gambar masuk semua ke kotak */
-        background-repeat: no-repeat;
-        background-position: left center;
-        display: block;
-        text-indent: -9999px; /* Buang teks "LOGO" kalau masih ada di HTML */
-}
-      
-    .nav-link { color: #666; text-decoration: none; font-size: 14px; font-weight: 500; }
-.nav-link.active { color: black; font-weight: 700; }
-
-.header-right { display: flex; align-items: center; gap: 20px; }
-.search-bar { background: #F3F4F6; border: none; padding: 8px 12px; border-radius: 6px; font-size: 14px; width: 200px; }
-.icon { color: #666; font-size: 18px; cursor: pointer; }
-
-
-      /* == COMMON DARK SECTION STYLING == */
-  .dark-section {
-    background-color: var(--pakar-dark);
-    color: var(--text-color-light);
-    
-    /* Padding: Atas-Bawah 100px, Kiri-Kanan 15% dari lebar layar */
-    padding: 60px 15%; 
-    
-    /* Supaya konten tetap konsisten di tengah */
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start; /* Tetap rata kiri, tapi sudah berjarak dari ujung */
+/* Home Aktif di index.html */
+.nav-link.active {
+    color: #0E49A1 !important;
+    font-weight: 800 !important;
 }
 
-/* Supaya judulnya makin tegas jaraknya */
-.main-title {
-    margin-left: 0; /* Pastikan tidak ada margin negatif */
-    color: #0E49A1;
-    font-size: 100px;
-    font-weight: 800;
-}
+.search-wrapper { display: flex; align-items: center; background: #F3F4F6; padding: 8px 15px; border-radius: 20px; }
+.search-bar { border: none; background: transparent; outline: none; width: 150px; font-size: 14px; }
 
-.top-list-wrapper {
-    width: 80%;
-    max-width: 85%; /* Membatasi lebar list agar tidak melar banget */
-    margin-top: 100px;  /* Jarak antara subtitle dan list karya */
-    text-align: left;
-    align-items: flex-start;  
-}
+/* HERO SECTION */
+.dark-section { padding: 80px 10%; background-color: var(--pakar-dark); }
 
-      .main-title { 
-        font-size: 36px;     
-        background: linear-gradient(-45deg, #0f172a, #1e293b, #334155, #1e1b4b);
-        background-size: 400% 400%;
-        animation: gradientBG 15s ease infinite; 
-        font-weight: 700; 
-        text-transform: uppercase; 
-        margin-bottom: 20px; 
-        color: var(--text-color-light); 
-        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    }
-      .sub-title { 
-        color: var(--text-color-muted); 
-        font-size: 16px; 
-        font-weight: 400; 
-        margin-top: -10px; 
-        margin-bottom: 30px;
-        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-     }
-
-      /* == 1. PAMERAN KARYA (HERO) SECTION == */
-      .pameran-wrapper {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 30px;
-        align-items: center;
-      }
-
-      .pameran-text-col { display: flex; flex-direction: column; gap: 20px; }
-      .pameran-body { color: var(--text-color-muted); line-height: 1.6; max-width: 450px; }
-      
-      .btn-jelajahi {
-        background: white; color: black; border: none; padding: 10px 40px;
-        border-radius: 20px;  cursor: pointer; 
-        width: fit-content; text-decoration: none; font-size: 18px;
-        /* Efek Hover (Saat kursor di atas tombol) */
-.btn-bounce {
-    display: inline-block !important; /* Wajib ada biar bisa gerak */
-    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
-    cursor: pointer;
-}
-
-.btn-bounce:hover {
-    transform: scale(1.08) !important; /* Sedikit lebih besar biar kelihatan */
-}
-
-.btn-bounce:active {
-    transform: scale(0.9) !important; /* Efek membal saat diklik */
-}
-      }
-
-     .pameran-images-col { 
-    display: flex; 
-    flex-direction: row; /* Ganti dari column ke row */
-    gap: 20px; 
-    width: 100%;
-}
-      .img-place-1 { 
-        height: 240px; 
-        width: 100%; 
-        background: #ccc; 
-        border-radius: 8px; 
-        background-image: url('tes/image-2.webp');
-        }
-      .img-place-2 { 
-        height: 240px; 
-        width: 100%; 
-        background: #aaa; 
-        border-radius: 8px; 
-        background-image: url('tes/image-3.jpg');
-    }
-
-      /* Paint Bucket (Foreground Image) */
-      .paint-img-wrapper {
-        margin-top: 60px;
-        max-width: 100%;
-        position: relative;
-      }
-      .img-place-paint {
-        height: 300px;
-        width: 100%;
-        background: #bbb url('tes/download.webp') no-repeat center;
-        background-size: cover;
-        background-attachment: fixed; 
-        position: relative;
-      }
-
-      /* == 2. TOP ARTS SECTIONS == */
-      .art-list { display: flex; flex-direction: column; }
-      
-      .art-item {
-        display: grid;
-        grid-template-columns: 2fr 1fr;
-        padding: 20px 0;
-        border-bottom: 1px solid var(--divider-color);
-        align-items: center;
-      }
-      
-      .art-title { font-weight: 600; font-size: 16px; margin-bottom: 4px; }
-      .art-author { color: var(--text-color-muted); font-size: 14px; }
-      .art-class { font-weight: 600; font-size: 16px; text-align: right; }
-
-      .top-list-wrapper {
-    margin-top: 30px;
-    display: flex;
-    flex-direction: column;
+.pameran-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     gap: 40px;
-    padding: 100px 40px;
-}
-
-.top-item-row {
-    display: flex;
     align-items: center;
-    justify-content: space-between;
-    width: 100%;
-
 }
 
-.item-left {
-    min-width: 200px;
+.judul { font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 800; margin-bottom: 10px; }
+.pameran-body { color: var(--text-color-muted); font-size: 1.1rem; margin-bottom: 30px; }
+
+.pameran-images-col { display: flex; gap: 15px; }
+.img-place-1, .img-place-2 { 
+    height: 300px; width: 100%; border-radius: 15px; 
+    background-size: cover; background-position: center; 
+}
+.img-place-1 { background-image: url('tes/image-2.webp'); }
+.img-place-2 { background-image: url('tes/image-3.jpg'); }
+
+/* PARALLAX SECT */
+.img-place-paint {
+    height: 400px; width: 100%;
+    background: url('tes/download.webp') no-repeat center;
+    background-size: cover; background-attachment: fixed;
 }
 
-.item-title {
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: white;
-    margin: 0;
-}
+/* TOP ARTS */
+.main-title { font-size: 2.5rem; color: #0E49A1; font-weight: 800; margin-bottom: 5px; background-color: rgba(255,255,255,0.05);}
+.sub-title { color: var(--text-color-muted); margin-bottom: 40px; }
 
-.item-author {
-    font-size: 0.9rem;
-    color: #ccc;
-    margin: 5px 0 0 0;
-}
+.top-list-wrapper { display: flex; flex-direction: column; gap: 15px; width: 100%; }
 
-/* Garis putus-putus tengah */
-.item-divider {
-    flex-grow: 1;
-    height: 1px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-    margin: 0 20px;
-}
-
-.item-right {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    text-align: right;
-}
-
-.item-class {
-    font-weight: bold;
-    color: white;
-    white-space: nowrap;
-}
-
-/* Tombol Lihat Karya */
-.btn-lihat-karya {
-    background: #ffffff;
-    color: #000;
-    padding: 6px 15px;
-    border-radius: 20px;
-    text-decoration: none;
-    font-size: 0.8rem;
-    font-weight: bold;
+.karya-card {
+    display: flex; justify-content: space-between; align-items: center;
+    background: rgba(255,255,255,0.05); padding: 20px 30px;
+    border-radius: 15px; border: 1px solid rgba(255,255,255,0.1);
     transition: 0.3s;
 }
+.karya-card:hover { transform: scale(1.02); background: rgba(255,255,255,0.08); }
 
-.btn-lihat-karya:hover {
-    background: #ccc;
-    transform: scale(1.05);
-}
-
-      /* == 3. SUBMIT SECTION == */
-      .submit-section {
+/* SUBMIT SECTION */
+.submit-section {
     background-color: var(--pakar-blue);
-    /* Sama, besarkan angka pertamanya */
-    padding: 200px 40px; 
-    display: grid; 
-    grid-template-columns: 1fr 1fr; 
-    gap: 40px; 
-    align-items: center;
+    padding: 80px 10%;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center;
+}
+.main-title-white { font-size: 2.5rem; font-weight: 800; color: white; margin-bottom: 20px; }
+.btn-upload { 
+    background: white; color: var(--pakar-blue); padding: 15px 30px; 
+    border-radius: 30px; text-decoration: none; font-weight: 700; display: inline-block;
+}
+.img-place-submit { height: 350px; background: url('tes/download.webp') center/cover; border-radius: 15px; }
+
+/* FOOTER */
+.footer-section { background: white; padding: 50px 20px; text-align: center; color: #121E2A; }
+.footer-logo img { height: 60px; margin-bottom: 20px; }
+.footer-contact-icons { display: flex; justify-content: center; gap: 25px; margin-bottom: 20px; }
+.icon-link { font-size: 24px; color: #121E2A; transition: 0.3s; }
+.icon-link:hover { transform: translateY(-5px); color: var(--pakar-blue); }
+.footer-copyright { border-top: 1px solid #eee; padding-top: 20px; font-size: 12px; color: #999; }
+
+/* BOUNCE ANIMATION */
+.btn-bounce { transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+.btn-bounce:hover { transform: scale(1.05); }
+
+/* MOBILE RESPONSIVE (PENTING) */
+@media screen and (max-width: 768px) {
+    .header { padding: 0 15px; flex-direction: column; height: auto; padding-bottom: 10px; }
+    .header-left { flex-wrap: wrap; justify-content: center; gap: 10px; }
+    .search-wrapper { margin-top: 10px; width: 100%; }
+    .search-bar { width: 100%; }
+
+    .pameran-wrapper, .submit-section { grid-template-columns: 1fr; text-align: center; }
+    .pameran-images-col { flex-direction: column; }
+    .pameran-text-col, .submit-text-col { align-items: center; padding-right: 0; }
+    .main-title, .main-title-white { font-size: 1.8rem; }
+    
+    /* --- PERBAIKAN TOP ARTS BACKGROUND & BUTTON --- */
+
+/* Latar belakang section TOP tetap ada gradien gelapnya */
+.rankings {
+    background: radial-gradient(circle at top right, #1a1a2e, #16213e, #0f3460) !important;
 }
 
-      .submit-text-col { padding-right: 40px; }
-      .submit-body { color: rgba(255, 255, 255, 0.9); line-height: 1.6; margin-bottom: 30px; font-size: 15px; }
-
-      .btn-upload {
-        background: white; color: black; border: none; padding: 12px 28px;
-        border-radius: 4px; font-weight: 600; cursor: pointer;
-        font-size: 15px;
-      }
-
-      .img-place-submit { 
-        height: 350px; 
-        width: 100%; 
-        background: #ddd; 
-        border-radius: 8px; 
-        background-image: url('tes/download.webp');
-    }
-
-      /* == FLOATERS (AI/Chat) == */
-      .ai-floater {
-        position: fixed;
-        bottom: 20px; right: 20px;
-        display: flex; flex-direction: column; gap: 10px;
-        z-index: 100;
-      }
-      .ai-icon, .chat-icon {
-        width: 44px; height: 44px; border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; color: white;
-      }
-      .ai-icon { background: linear-gradient(135deg, #ff007f 0%, #ffbf00 100%); font-weight: 700; font-size: 18px; }
-      .chat-icon { background: #8e44ad; font-size: 20px; }
-
-      /* Fungsi baru khusus untuk judul TOP ARTS */
-.top-title-text {
-    padding-left: 20px !important; /* Jarak dari kiri monitor */
-    text-align: left; /* Tetap rata kiri tapi berjarak */
-    display: block;
-    width: 100%;
-}
-
-/* Supaya list karya di bawahnya juga ikut geser 40px agar sejajar */
-.top-list-wrapper {
-    padding-left: 20px;
-    padding-right: 20px;
-}
-
-/* --- TAMBAHAN BARU --- */
-
-/* 1. Dropdown Logic */
-.dropdown { position: relative; display: inline-block; }
-
-.dropdown-menu {
-    display: none; 
-    position: absolute;
-    right: 0; top: 100%;
-    background-color: #121E2A; 
-    min-width: 180px;
-    box-shadow: 0px 8px 16px rgba(0,0,0,0.5);
-    z-index: 100;
-    border-radius: 8px;
-    margin-top: 10px;
-    border: 1px solid rgba(255,255,255,0.1);
-}
-
-.dropdown-menu a {
-    color: white; padding: 12px 16px;
-    text-decoration: none; display: block;
-    font-size: 14px; transition: 0.2s;
-}
-
-.dropdown-menu a:hover { background-color: #0E49A1; }
-
-.show { display: block !important; }
-
-
-
-/* --- FOOTER SECTION (TAMBAHAN) --- */
-.footer-section {
-    background-color: #ffffff; 
-    padding: 60px 0 40px 0; /* Jarak atas lebih luas biar lega */
-    width: 100%;
-    border-top: 1px solid #eeeeee;
-    display: flex;
-    justify-content: center; /* Memastikan container di tengah */
-}
-
-.footer-container {
-    width: 100%;
-    max-width: 600px; /* Batasi lebar agar konten tidak melar */
-    display: flex;
-    flex-direction: column;
-    align-items: center; 
-    text-align: center;
-}
-
-.footer-logo img {
-    height: 100px; /* Ukuran logo rectangle kecil */
-    width: auto;
-    margin-bottom: 20px;
-}
-
-.footer-contact-icons {
-    display: flex;
-    gap: 30px; /* Jarak antar ikon medsos */
-    margin-bottom: 25px;
-}
-
-.icon-link {
-    font-size: 24px;
-    color: #121E2A; /* Warna gelap */
-    text-decoration: none;
-    transition: all 0.3s ease;
-}
-
-/* Warna ikon saat di-hover */
-.icon-link:hover { transform: translateY(-5px); }
-.fa-whatsapp:hover { color: #25D366; }
-.fa-instagram:hover { color: #E4405F; }
-.fa-envelope:hover { color: #EA4335; }
-
-.footer-copyright {
-    font-size: 12px;
-    color: #999;
-    border-top: 1px solid #eee;
-    padding-top: 20px;
-    width: 100%;
-}
-
-/* Container Utama */
-/* Container Utama Rank */
-#weekly-container {
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 20px !important;
-    width: 100% !important; /* Biar memenuhi layar */
-    max-width: 900px !important; /* Tapi jangan terlalu lebar juga */
-    margin: 40px auto !important; /* Tengahin */
-    padding: 20px !important;
-    box-sizing: border-box !important;
-}
+/* Card dengan Efek Kaca (Glassmorphism) */
 .karya-card {
     display: flex !important;
     justify-content: space-between !important;
     align-items: center !important;
     width: 100% !important;
     padding: 25px 40px !important;
-    background: rgba(255, 255, 255, 0.05) !important; /* Transparan */
-    backdrop-filter: blur(12px) !important; /* Efek Kaca */
+    background: rgba(255, 255, 255, 0.05) !important; /* Transparan putih tipis */
+    backdrop-filter: blur(12px) !important; /* Efek Blur di belakang card */
     -webkit-backdrop-filter: blur(12px);
     border: 1px solid rgba(255, 255, 255, 0.1) !important;
     border-radius: 20px !important;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2) !important;
+    margin-bottom: 15px;
     transition: all 0.3s ease !important;
-    box-sizing: border-box !important;
 }
 
 .karya-card:hover {
-    transform: translateY(-5px) scale(1.01);
+    transform: translateY(-5px);
     background: rgba(255, 255, 255, 0.1) !important;
     border-color: rgba(255, 255, 255, 0.3) !important;
 }
 
+.btn-lihat {
+    background-color: #0E49A1 !important; /* Biru Pakar */
+    color: white !important;
+    padding: 8px 16px !important;
+    border-radius: 8px !important;
+    text-decoration: none !important;
+    font-weight: 600 !important;
+    font-size: 13px !important;
+    display: inline-block !important;
+    border: none !important;
+    transition: 0.3s !important;
+}
+
+.btn-lihat:hover {
+    background-color: #121E2A !important;
+    transform: translateY(-2px);
+}
 .karya-badge {
     display: flex;
     align-items: center;
-    gap: 25px; /* Jarak antara teks kelas dan tombol */
-    margin: 20px 20px; /* Tambahan jarak ekstra jika masih kurang */
-    padding-left: 20px;
+    gap: 20px;
 }
 
-
-
-/* Membagi info (kiri) dan badge (kanan) */
-.karya-content {
-    display: flex !important;
-    justify-content: space-between !important;
-    align-items: center !important;
-    width: 100% !important;
-    color: rgba(255, 255, 255, 0.5) !important; /* Samar */
-    ;
+@media screen and (max-width: 768px) {
+    .karya-card {
+        flex-direction: column !important;
+        text-align: center !important;
+        padding: 20px !important;
+    }
+    .karya-badge {
+        flex-direction: column;
+        margin-top: 15px;
+    }
+}
 }
 
-/* Judul Bold & Nama Samar */
-.karya-judul {
-    font-weight: bold !important;
-    font-size: 1.2rem !important;
-    padding-left: 0px;
-    color: white !important;
-    margin: 0 !important;
-}
+/* --- PERBAIKAN TOMBOL (HOME & GLOBAL) --- */
 
-.karya-nama {
-    font-size: 0.85rem !important;
-    padding-left: 40px;
-    color: rgba(255, 255, 255, 0.5) !important; /* Samar */
-    margin-top: 5px !important;
-}
-
-/* Sembunyikan link drive mentah agar tidak merusak layout */
-.karya-info a {
-    display: none; 
-}
-
-/* Gaya Tombol Lihat Karya */
-.btn-lihat {
-    background: white !important;
-    color: black !important;
-    padding: 15px 15px !important;
-    border-radius: 20px !important;
-    text-decoration: none !important;
-    font-weight: bold !important;
-    font-size: 0.8rem !important;
-}
-
-.empty-msg {
+/* Tombol Utama (Jelajahi & Upload) */
+.btn-jelajahi, .btn-upload, .btn-lihat {
+    display: inline-block !important;
+    padding: 12px 30px !important;
+    background-color: white !important; /* Latar belakang putih */
+    color: #121E2A !important; /* Tulisan gelap, bukan ungu */
+    text-decoration: none !important; /* Hapus garis bawah link */
+    border-radius: 30px !important;
+    font-weight: 700 !important;
+    font-size: 16px !important;
+    border: none !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2) !important;
     text-align: center;
-    color: rgba(255, 255, 255, 0.4);
-    font-style: italic;
-    padding: 20px 20px;
-    border: 1px dashed rgba(255, 255, 255, 0.2);
-    border-radius: 10px;
 }
 
-.karya-card, .art-card {
-    background: rgba(255, 255, 255, 0.03) !important; /* Transparan dikit banget */
-    backdrop-filter: blur(10px) !important; /* Efek blur kaca */
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37) !important;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+/* Khusus Lihat Karya (Agar lebih kecil sedikit) */
+.btn-lihat {
+    padding: 8px 20px !important;
+    font-size: 14px !important;
+    min-width: 110px;
 }
 
-.karya-card:hover {
-    background: rgba(255, 255, 255, 0.07) !important;
-    transform: translateY(-8px) scale(1.02); /* Efek melayang halus */
-    border-color: rgba(255, 255, 255, 0.2) !important;
+/* Efek Hover untuk SEMUA tombol */
+.btn-jelajahi:hover, .btn-upload:hover, .btn-lihat:hover {
+    transform: translateY(-3px) scale(1.05) !important;
+    background-color: #f0f0f0 !important;
+    color: #0E49A1 !important;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.3) !important;
+}
+
+/* Pastikan Link tidak berubah jadi ungu meski sudah pernah diklik */
+a:visited {
+    color: inherit;
 }

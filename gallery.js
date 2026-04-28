@@ -14,14 +14,13 @@ async function loadGallery() {
         
         container.innerHTML = ""; 
 
-        // AMBIL DARI LACI "all"
+        // AMBIL DARI "all"
         const listKarya = data.all; 
 
         if (listKarya && listKarya.length > 0) {
             listKarya.forEach((item, index) => {
                 // Ekstrak ID Gambar dari URL Drive
                 const fileId = item.driveUrl.split('id=')[1] || item.driveUrl.split('/d/')[1].split('/')[0];
-                // Menggunakan thumbnail resolusi tinggi agar lebih enteng & muncul
                 const directImg = `https://lh3.googleusercontent.com/u/0/d/${fileId}=w1000`;
 
                 const card = `
@@ -110,7 +109,7 @@ const modal = document.getElementById('imageModal');
 const modalImg = document.getElementById('imgFull');
 const closeBtn = document.getElementById('closeModal');
 
-// 2. Fungsi untuk membuka modal (panggil ini saat gambar/tombol 'lihat' diklik)
+// 2. Fungsi untuk membuka modal 
 function openLightbox(src) {
     modal.style.display = "flex";
     modalImg.src = src;
@@ -119,7 +118,7 @@ function openLightbox(src) {
 // 3. Fungsi tutup modal
 function closeLightbox() {
     modal.style.display = "none";
-    modalImg.src = ""; // Bersihkan src biar gak berat
+    modalImg.src = ""; 
 }
 
 // Event listener buat tombol tutup dan klik di area gelap
@@ -128,12 +127,7 @@ modal.onclick = (e) => {
     if (e.target === modal) closeLightbox();
 };
 
-// 4. INTEGRASI KE DATA GOOGLE SHEETS
-// Di dalam loop data Sheets kamu, tambahkan event listener ke gambar:
-// Contoh:
-// imgElement.onclick = () => openLightbox(directLink);
-
-// 5. Fungsi Notifikasi (Sesuai permintaan)
+// 4. Fungsi Notifikasi 
 function showNotification(text) {
     const oldNotif = document.querySelector('.art-notification');
     if (oldNotif) oldNotif.remove();
@@ -153,17 +147,16 @@ window.addEventListener('DOMContentLoaded', () => {
     const title = document.querySelector('.bounce-target');
     const desc = document.querySelector('.fade-target');
 
-    // Kasih sedikit delay biar gak kaget
     setTimeout(() => {
         if(title) title.classList.add('animate-bounce');
     }, 100);
 
     setTimeout(() => {
         if(desc) desc.classList.add('animate-fade');
-    }, 600); // Deskripsi muncul belakangan
+    }, 600); 
 });
 
-// Kode ini otomatis cari link yang href-nya sama dengan URL sekarang
+// cari link yang href-nya sama dengan URL sekarang
 const currentPath = window.location.pathname.split("/").pop();
 const navLinks = document.querySelectorAll('.dropdown-menu a');
 
@@ -173,7 +166,7 @@ navLinks.forEach(link => {
     }
 });
 
-// Jalankan ini setiap halaman Gallery dibuka
+
 window.addEventListener('DOMContentLoaded', () => {
     // 1. Cek apakah ada parameter 'search' di URL
     const urlParams = new URLSearchParams(window.location.search);
@@ -190,3 +183,45 @@ window.addEventListener('DOMContentLoaded', () => {
         }, 1500); // Delay 1.5 detik biar data database muncul dulu
     }
 });
+
+// Di dalam fungsi click like kamu
+element.classList.toggle('liked'); 
+// Ini bakal memicu animasi 'transform: rotate(360deg)' yang kita buat di CSS tadi
+
+document.getElementById('closeModal').onclick = function() {
+    document.getElementById('imageModal').style.display = "none";
+}
+
+// Fungsi membuka modal
+function openModal(imgSrc) {
+    const modal = document.getElementById('imageModal');
+    const fullImg = document.getElementById('imgFull');
+    
+    modal.style.display = "flex"; // Munculkan dengan flex
+    fullImg.src = imgSrc;
+    
+    // Mencegah scroll body saat modal buka
+    document.body.style.overflow = "hidden";
+}
+
+// Fungsi menutup modal
+document.getElementById('closeModal').onclick = function() {
+    const modal = document.getElementById('imageModal');
+    modal.style.display = "none";
+    document.body.style.overflow = "auto";
+};
+
+// Tutup modal jika klik di area hitam (overlay)
+window.onclick = function(event) {
+    const modal = document.getElementById('imageModal');
+    if (event.target == modal) {
+        modal.style.display = "none";
+        document.body.style.overflow = "auto";
+    }
+};
+
+// Pastikan ID tombol silangnya 'closeModal'
+document.getElementById('closeModal').onclick = function() {
+    document.getElementById('imageModal').style.display = "none";
+};
+

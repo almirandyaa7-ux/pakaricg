@@ -45,3 +45,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Tambahkan ini di dalam listener klik segitiga jika ingin scroll otomatis
 panel.scrollIntoView({ behavior: 'smooth' });
+
+const toggleBtn = document.getElementById('toggleTeamBtn');
+const teamPanel = document.getElementById('teamContentPanel');
+
+toggleBtn.addEventListener('click', () => {
+    teamPanel.classList.toggle('panel-show');
+    
+    // Animasi putar ikon panah saat diklik
+    const icon = toggleBtn.querySelector('i');
+    if (teamPanel.classList.contains('panel-show')) {
+        icon.style.transform = 'rotate(180deg)';
+        // Scroll otomatis ke bawah agar user tahu panelnya terbuka
+        window.scrollBy({ top: 400, behavior: 'smooth' });
+    } else {
+        icon.style.transform = 'rotate(0deg)';
+    }
+});
