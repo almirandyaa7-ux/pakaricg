@@ -1,227 +1,169 @@
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyC1vgRiVg89W0KYfN51SsUqusy7dGu9OyMJG5CXkT-4XcDEiEfpsAjrgNFslBlA-fgXQ/exec";
 
+// 1. Pemasangan Event Listener Global (Anti-Hilang)
+document.addEventListener('DOMContentLoaded', () => {
+    loadGallery();
+    
+    const modal = document.getElementById('imageModal');
+    const closeBtn = document.getElementById('closeModal');
 
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz_9ElVLqdMTQhnZoK7jdOk3kqyUYgRWJ7ghhevJx_uqEVIvKwqCOAOhX0mTh1a-gYn/exec";
+    if (closeBtn) {
+        closeBtn.onclick = function() {
+            modal.style.display = "none";
+            document.body.style.overflow = "auto";
+        };
+    }
 
-document.addEventListener('DOMContentLoaded', loadGallery);
+    window.onclick = function(event) {
+        if (event.target === modal) {
+            modal.style.display = "none";
+            document.body.style.overflow = "auto";
+        }
+    };
+});
 
+// 2. Fungsi Buka Modal (Global)
+function openLightbox(src) {
+    const modal = document.getElementById('imageModal');
+    const modalImg = document.getElementById('imgFull');
+    if (modal && modalImg) {
+        modalImg.src = src;
+        modal.style.display = "flex";
+        document.body.style.overflow = "hidden";
+    }
+}
+
+// 3. Render Gallery
 async function loadGallery() {
     const container = document.querySelector('.art-grid');
-    container.innerHTML = "<p style='grid-column:1/-1; text-align:center;'>Menghubungkan ke Database...</p>";
+    if(!container) return;
+    
+    container.innerHTML = "<p style='grid-column:1/-1; text-align:center; color:white;'>Memuat Karya...</p>";
 
     try {
         const response = await fetch(SCRIPT_URL);
         const data = await response.json();
-        
         container.innerHTML = ""; 
 
-        // AMBIL DARI "all"
-        const listKarya = data.all; 
+        data.all.forEach(item => {
+            let fileId = "";
+            try {
+                fileId = item.driveUrl.split('id=')[1] || item.driveUrl.split('/d/')[1].split('/')[0];
+            } catch(e) { console.error("URL Salah:", item.driveUrl); }
+            
+            const thumbImg = `https://lh3.googleusercontent.com/d/${fileId}`;
 
-        if (listKarya && listKarya.length > 0) {
-            listKarya.forEach((item, index) => {
-                // Ekstrak ID Gambar dari URL Drive
-                const fileId = item.driveUrl.split('id=')[1] || item.driveUrl.split('/d/')[1].split('/')[0];
-                const directImg = `https://lh3.googleusercontent.com/u/0/d/${fileId}=w1000`;
+            // Bangun HTML Komentar
+            const commentListHtml = (item.comments || []).map(c => `
+                <div class="each-comment">
+                    <span style="color: #ff4757; font-weight: bold;">${c.user}</span>: ${c.text}
+                </div>
+            `).join('');
 
-                const card = `
-                    <div class="art-card">
-                        <div class="card-img-container">
-                            <img src="${directImg}" alt="${item.judul}" class="cover-img" onerror="this.src='https://via.placeholder.com/300x400?text=Gambar+Privat'">
-                        </div>
-                        <div class="card-content">
-                            <h3 class="art-title-bold">${item.judul}</h3>
-                            <p class="art-info-sub">Oleh ${item.nama}</p>
-                            <p class="art-info-sub">Kelas ${item.kelas}</p>
-                            
-                            <div class="card-action">
-                                <button id="btn-karya-${index}" class="btn-like" onclick="handleLike(${item.rowId}, 'karya-${index}')">
-                                    <i class="${localStorage.getItem('liked_row_' + item.rowId) ? 'fa-solid' : 'fa-regular'} fa-heart" 
-                                       style="${localStorage.getItem('liked_row_' + item.rowId) ? 'color:#ff4757' : ''}"></i> 
-                                    <span id="count-karya-${index}">${item.likes}</span>
+            const card = `
+                <div class="art-card">
+                    <div class="card-img-container">
+                        <img src="${thumbImg}" class="cover-img" loading="lazy" onerror="this.src='https://via.placeholder.com/300x400?text=Gambar+Privat'">
+                    </div>
+                    <div class="card-content">
+                        <h3 class="art-title-bold">${item.judul}</h3>
+                        <p class="art-info-sub">${item.nama} | ${item.kelas}</p>
+                        
+                        <div class="card-action">
+                            <div style="display: flex; gap: 15px;">
+                                <button class="btn-like ${localStorage.getItem('liked_'+item.id) ? 'liked' : ''}" onclick="handleLike('${item.id}', this)">
+                                    <i class="${localStorage.getItem('liked_'+item.id) ? 'fa-solid' : 'fa-regular'} fa-heart"></i> 
+                                    <span class="like-count">${item.likes}</span>
                                 </button>
-                                <button class="btn-lihat" onclick="openLightbox('${directImg}')">Lihat Full</button>
+                                
+                                <button class="btn-comment-toggle" style="background:none; border:none; color:white; cursor:pointer;" onclick="toggleComment('${item.id}')">
+                                    <i class="fa-regular fa-comment"></i>
+                                    <span>${item.comments ? item.comments.length : 0}</span>
+                                </button>
+                            </div>
+                            
+                            <button class="btn-lihat" onclick="openLightbox('${thumbImg}')">Lihat Full</button>
+                        </div>
+
+                        <div id="comment-area-${item.id}" class="comment-section" style="display: none; margin-top: 15px; background: rgba(255,255,255,0.05); padding: 10px; border-radius: 8px;">
+                            <div class="comment-list" style="max-height: 100px; overflow-y: auto; font-size: 0.85rem; margin-bottom: 10px;">
+                                ${commentListHtml || '<p style="font-size: 0.7rem; color: #888;">Belum ada komentar.</p>'}
+                            </div>
+                            <div class="comment-box" style="display: flex; gap: 5px;">
+                                <input type="text" id="input-${item.id}" placeholder="Tulis komentar..." style="flex: 1; background: #000; border: 1px solid #333; color: white; padding: 5px; border-radius: 4px; font-size: 0.8rem;">
+                                <button onclick="submitComment('${item.id}')" style="background: #ff4757; border: none; color: white; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 0.8rem;">Kirim</button>
                             </div>
                         </div>
                     </div>
-                `;
-                container.innerHTML += card;
-            });
-        } else {
-            container.innerHTML = "<p style='grid-column:1/-1; text-align:center;'>Belum ada karya untuk ditampilkan.</p>";
-        }
+                </div>`;
+            container.innerHTML += card;
+        });
     } catch (err) {
-        console.error("Gallery Error:", err);
-        container.innerHTML = "<p style='grid-column:1/-1; text-align:center; color:red;'>Gagal memuat gallery. Cek koneksi atau URL Script.</p>";
+        container.innerHTML = "<p style='color:red;'>Gagal konek.</p>";
     }
 }
 
-// 2. Fungsi Like Permanen ke Database
-async function handleLike(rowId, elementId) {
-    const counter = document.getElementById('count-' + elementId);
-    const icon = document.querySelector(`#btn-${elementId} i`);
-    
-    const isLiked = localStorage.getItem('liked_row_' + rowId);
-    let action = isLiked ? 'removeLike' : 'addLike';
+// 4. Fungsi Like
+async function handleLike(id, btn) {
+    if (localStorage.getItem('liked_' + id)) return;
+    const countSpan = btn.querySelector('.like-count');
+    const icon = btn.querySelector('i');
+    let current = parseInt(countSpan.innerText) || 0;
 
-    // 1. Kirim ke Database
-    fetch(SCRIPT_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        body: JSON.stringify({ action: action, rowId: rowId })
-    });
+    countSpan.innerText = current + 1;
+    icon.className = "fa-solid fa-heart";
+    icon.style.color = "#ff4757";
+    btn.style.pointerEvents = 'none';
 
-    // 2. Update UI & LocalStorage
-    let currentCount = parseInt(counter.innerText);
-    if (!isLiked) {
-        // Proses Like
-        counter.innerText = currentCount + 1;
-        icon.classList.replace('fa-regular', 'fa-solid');
-        icon.style.color = '#ff4757';
-        localStorage.setItem('liked_row_' + rowId, 'true');
-        showNotification("Disukai!");
-    } else {
-        // Proses Unlike
-        counter.innerText = Math.max(0, currentCount - 1);
-        icon.classList.replace('fa-solid', 'fa-regular');
-        icon.style.color = ''; // Balik ke warna asli
-        localStorage.removeItem('liked_row_' + rowId);
-        showNotification("Batal menyukai");
+    try {
+        await fetch(`${SCRIPT_URL}?action=like&id=${encodeURIComponent(id)}`);
+        localStorage.setItem('liked_' + id, 'true');
+    } catch (e) {
+        countSpan.innerText = current;
+        icon.className = "fa-regular fa-heart";
+        btn.style.pointerEvents = 'auto';
     }
 }
 
-// 3. Fungsi Search Bar di Gallery
+// 5. Fungsi Search
+let searchTimer;
 function searchArt() {
-    let input = document.getElementById('searchInput').value.toLowerCase();
-    let cards = document.querySelectorAll('.art-card'); 
+    clearTimeout(searchTimer);
+    const inputElemen = document.getElementById('searchInput');
+    if (!inputElemen) return; 
+    const filter = inputElemen.value.toLowerCase().trim();
 
-    cards.forEach(card => {
-        if (card.innerText.toLowerCase().includes(input)) {
-            card.style.display = "block"; 
-        } else {
-            card.style.display = "none";
+    searchTimer = setTimeout(() => {
+        const cards = document.querySelectorAll('.art-card');
+        cards.forEach(card => {
+            const isiKartu = card.innerText.toLowerCase();
+            card.style.display = isiKartu.includes(filter) ? "" : "none";
+        });
+    }, 250);
+}
+
+// --- FITUR BARU: KOMENTAR ---
+
+function toggleComment(id) {
+    const area = document.getElementById(`comment-area-${id}`);
+    area.style.display = area.style.display === "none" ? "block" : "none";
+}
+
+async function submitComment(id) {
+    const input = document.getElementById(`input-${id}`);
+    const text = input.value.trim();
+    if (!text) return;
+
+    const user = prompt("Masukkan namamu:") || "Anonim";
+
+    try {
+        const res = await fetch(`${SCRIPT_URL}?action=comment&id=${encodeURIComponent(id)}&text=${encodeURIComponent(text)}&user=${encodeURIComponent(user)}`);
+        const result = await res.json();
+        if (result.result === "success") {
+            input.value = "";
+            loadGallery(); // Refresh tampilan
         }
-    });
-}
-
-// 4. Fitur Lightbox (Lihat Gambar Full)
-// 1. Ambil elemen modal
-const modal = document.getElementById('imageModal');
-const modalImg = document.getElementById('imgFull');
-const closeBtn = document.getElementById('closeModal');
-
-// 2. Fungsi untuk membuka modal 
-function openLightbox(src) {
-    modal.style.display = "flex";
-    modalImg.src = src;
-}
-
-// 3. Fungsi tutup modal
-function closeLightbox() {
-    modal.style.display = "none";
-    modalImg.src = ""; 
-}
-
-// Event listener buat tombol tutup dan klik di area gelap
-closeBtn.onclick = closeLightbox;
-modal.onclick = (e) => {
-    if (e.target === modal) closeLightbox();
-};
-
-// 4. Fungsi Notifikasi 
-function showNotification(text) {
-    const oldNotif = document.querySelector('.art-notification');
-    if (oldNotif) oldNotif.remove();
-
-    const notif = document.createElement('div');
-    notif.className = 'art-notification';
-    notif.innerText = text;
-    document.body.appendChild(notif);
-
-    setTimeout(() => {
-        notif.classList.add('fade-out');
-        setTimeout(() => notif.remove(), 500);
-    }, 2000);
-}
-
-window.addEventListener('DOMContentLoaded', () => {
-    const title = document.querySelector('.bounce-target');
-    const desc = document.querySelector('.fade-target');
-
-    setTimeout(() => {
-        if(title) title.classList.add('animate-bounce');
-    }, 100);
-
-    setTimeout(() => {
-        if(desc) desc.classList.add('animate-fade');
-    }, 600); 
-});
-
-// cari link yang href-nya sama dengan URL sekarang
-const currentPath = window.location.pathname.split("/").pop();
-const navLinks = document.querySelectorAll('.dropdown-menu a');
-
-navLinks.forEach(link => {
-    if (link.getAttribute('href') === currentPath) {
-        link.classList.add('active');
+    } catch (e) {
+        alert("Gagal mengirim komentar.");
     }
-});
-
-
-window.addEventListener('DOMContentLoaded', () => {
-    // 1. Cek apakah ada parameter 'search' di URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const searchQuery = urlParams.get('search');
-
-    if (searchQuery) {
-        // 2. Tunggu sebentar sampai data gallery selesai dimuat
-        setTimeout(() => {
-            const searchInput = document.getElementById('searchInput');
-            if (searchInput) {
-                searchInput.value = searchQuery; // Masukkan judul ke kotak search
-                searchArt(); // Jalankan fungsi cari otomatis
-            }
-        }, 1500); // Delay 1.5 detik biar data database muncul dulu
-    }
-});
-
-// Di dalam fungsi click like kamu
-element.classList.toggle('liked'); 
-// Ini bakal memicu animasi 'transform: rotate(360deg)' yang kita buat di CSS tadi
-
-document.getElementById('closeModal').onclick = function() {
-    document.getElementById('imageModal').style.display = "none";
 }
-
-// Fungsi membuka modal
-function openModal(imgSrc) {
-    const modal = document.getElementById('imageModal');
-    const fullImg = document.getElementById('imgFull');
-    
-    modal.style.display = "flex"; // Munculkan dengan flex
-    fullImg.src = imgSrc;
-    
-    // Mencegah scroll body saat modal buka
-    document.body.style.overflow = "hidden";
-}
-
-// Fungsi menutup modal
-document.getElementById('closeModal').onclick = function() {
-    const modal = document.getElementById('imageModal');
-    modal.style.display = "none";
-    document.body.style.overflow = "auto";
-};
-
-// Tutup modal jika klik di area hitam (overlay)
-window.onclick = function(event) {
-    const modal = document.getElementById('imageModal');
-    if (event.target == modal) {
-        modal.style.display = "none";
-        document.body.style.overflow = "auto";
-    }
-};
-
-// Pastikan ID tombol silangnya 'closeModal'
-document.getElementById('closeModal').onclick = function() {
-    document.getElementById('imageModal').style.display = "none";
-};
-
